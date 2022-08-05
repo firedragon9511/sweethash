@@ -23,12 +23,13 @@ parser = argparse.ArgumentParser(description=banner, formatter_class=RawTextHelp
 
 parser.add_argument('-ab','--append-begin', dest='appendbegin', action='store', type=str, help='append to begin of all payloads.', required=False, default='')
 parser.add_argument('-af','--append', dest='append', action='store', type=str, help='append to final of all payloads.', required=False, default='')
-parser.add_argument('-A','--Append', dest='Append', action='store', type=str, help='append to final of all payloads using a wordlist.', required=False)
+# parser.add_argument('-A','--Append', dest='Append', action='store', type=str, help='append to final of all payloads using a wordlist.', required=False)
 parser.add_argument('-o','--output', dest='output', action='store', type=str, help='save output to a file (append).', required=False)
 parser.add_argument('-n','--numbers', dest='numbers', action='store', type=str, help='minimum numbers after 0e (default: 1).', required=False, default=1)
+parser.add_argument('-s','--append-size', dest='combination', action='store', type=str, help='size of the append responsible for the attempts (default: 15).', required=False, default=15)
 parser.add_argument('-e','--exponent', dest='exponent', action='store', type=str, help='custom exponent prefix (default: 0+[eE]).', required=False, default='0+[eE]')
-parser.add_argument('-t','--type', dest='type', action='store', type=str, help='hash algorithm.', required=False, default='md5')
-
+parser.add_argument('-t','--type', dest='type', action='store', type=str, help='hash algorithm. Available: md5, sha256', required=False, default='md5')
+#combination size
 
 parser.add_argument('-b','--break', dest='breakloop', help='break on first magic hash found.', action='store_true')
 
@@ -71,7 +72,7 @@ def digest(txt):
 def find_magic_hash():
     x=0
     # for i in range(0,50):
-    char=itertools.product(string.ascii_lowercase,repeat=int(15))
+    char=itertools.product(string.ascii_lowercase,repeat=int(args.combination))
     for pin in char:
         code =''.join(pin)
         hash = digest(args.appendbegin + code + args.append) #hashlib.md5((args.appendbegin + code + args.append).encode()).hexdigest()
