@@ -28,7 +28,7 @@ parser.add_argument('-o','--output', dest='output', action='store', type=str, he
 parser.add_argument('-n','--numbers', dest='numbers', action='store', type=str, help='minimum numbers after 0e (default: 1).', required=False, default=1)
 parser.add_argument('-s','--append-size', dest='combination', action='store', type=str, help='size of the append responsible for the attempts (default: 15).', required=False, default=15)
 parser.add_argument('-e','--exponent', dest='exponent', action='store', type=str, help='custom exponent prefix (default: 0+[eE]).', required=False, default='0+[eE]')
-parser.add_argument('-t','--type', dest='type', action='store', type=str, help='hash algorithm. Available: md5, sha256', required=False, default='md5')
+parser.add_argument('-t','--type', dest='type', action='store', type=str, help='hash algorithm. Available: md5, sha1, sha224,  sha256, sha384, sha512', required=False, default='md5')
 #combination size
 
 parser.add_argument('-b','--break', dest='breakloop', help='break on first magic hash found.', action='store_true')
@@ -66,6 +66,14 @@ def digest(txt):
         result = hashlib.md5(txt.encode()).hexdigest()
     if args.type == 'sha256':
         result = hashlib.sha256(txt.encode()).hexdigest()
+    if args.type == 'sha512':
+        result = hashlib.sha512(txt.encode()).hexdigest()
+    if args.type == 'sha1':
+        result = hashlib.sha1(txt.encode()).hexdigest()
+    if args.type == 'sha224':
+        result = hashlib.sha224(txt.encode()).hexdigest()
+    if args.type == 'sha384':
+        result = hashlib.sha384(txt.encode()).hexdigest()
 
     return result
 
